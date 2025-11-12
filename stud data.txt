@@ -1,0 +1,42 @@
+﻿// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.0;
+
+contract StudentData {
+        // Define a struct to store student information
+        struct Student {
+                string name;
+                uint rollno;
+        }
+
+        // Array to store all students
+        Student[] public studentArr;
+
+        // Function to add a new student
+        function addStudent(string memory name, uint rollno) public {
+                // Check if the student with the given rollno already exists
+                for (uint i = 0; i < studentArr.length; i++) {
+                        if (studentArr[i].rollno == rollno) {
+                                revert("Student with roll no already exists!");
+                        }
+                }
+                // Add the student if the rollno doesn't exist
+                studentArr.push(Student(name, rollno));
+        }
+
+        // Function to display all students
+        function displayAllStudents() public view returns (Student[] memory) {
+                return studentArr;
+        }
+
+        // Function to get student by index
+        function getStudentByIndex(uint index) public view returns (Student memory) {
+                // Correct the condition to check if index is within bounds
+                require(index < studentArr.length, "Index out of bounds");
+                return studentArr[index];
+        }
+
+        // Function to get the number of students
+        function getLengthOfStudents() public view returns (uint) {
+                return studentArr.length;
+        }
+}
